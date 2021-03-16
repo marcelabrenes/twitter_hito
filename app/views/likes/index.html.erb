@@ -17,7 +17,7 @@
         <td><%= like.tweet_id %></td>
         <td><%= like.user_id %></td>
         <td><%= link_to 'Show', like %></td>
-        <td><%= link_to 'Edit', edit_like_path(like) %></td>
+        <td><%= link_to 'Edit', edit_tweets_like_path(tweet,like) %></td>
         <td><%= link_to 'Destroy', like, method: :delete, data: { confirm: 'Are you sure?' } %></td>
       </tr>
     <% end %>
@@ -26,4 +26,4 @@
 
 <br>
 
-<%= link_to 'New Like', new_like_path %>
+<%= link_to 'New Like', new_tweets_like_path(tweet) %>
