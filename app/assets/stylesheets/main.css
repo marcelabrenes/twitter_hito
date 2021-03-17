@@ -2,12 +2,21 @@ body {
     margin: 0 auto;
 }
 
-.tweet-cont{
+.navbar {
+    background-color: #33ccff;
+}
+
+.navbar a {
+    color: white;
+    text-decoration: none;
+}
+
+.tweet-cont {
     margin: 0 auto;
     max-width: 750px;
 }
 
-ul li{
+ul li {
     list-style-type: none;
 }
 

@@ -4,23 +4,33 @@
     <h1>Tweets</h1>
   
     <div class="card-body mb-3">
+    <%= paginate @tweets %>
       <% @tweets.each do |tweet| %>
-
-          <ul>
-            <li><%= link_to(image_tag(current_user.picture), current_user) if current_user.picture? %></li>
-            <li  class="list-group-item"><h3><%= tweet.user_id %></h3></li>
-            <!--< Card body >-->
-            <li  class="list-group-item"><%= link_to(image_tag(tweet.image), tweet) if tweet.image? %></li>
-            <li class="list-group-item"><%= tweet.content.truncate(150)  %></li>
-            <li  class="list-group-item"> <div class="text-muted">
-              <small><%= time_ago_in_words(tweet.created_at) %> ago</small></div></ li>
-          </ul>
-          <!--<% link_to 'Show', tweet, class: "btn btn-primary" %>
-          <% link_to 'Edit', edit_tweet_path(tweet) %> 
-          <% link_to 'Eliminar', tweet, method: :delete, data: { confirm: 'Are you  sure?' } %>-->
+        <ul>
+          <li class="list-group-item">
+          <%= link_to "#" do%>
+            <%= image_tag current_user.picture.nil? ? 'icon.png' : current_user.picture %>
+            <%= tweet.user.name %>
+          <% end %>
+          </li>
+​
+          <li class="list-group-item"><%= link_to(image_tag(tweet.image), tweet) if tweet.image? %></li>
+          <li class="list-group-item"><%= tweet.content.truncate(150)  %></li>
+          <li class="list-group-item text-muted">
+            <small><%= time_ago_in_words(tweet.created_at) %> ago</small>
+            <%= link_to 'rt', create_rt_tweet_path(tweet), method: :post %>
+            <%= tweet.retweet&.id %>
+            <%= tweet.retweets.count %>
+          </li>  
+        </ul>
+        <!-- <% link_to 'Show', tweet, class: "btn btn-primary" %>
+        <% link_to 'Edit', edit_tweet_path(tweet) %> -->
+        <% link_to 'Delete', tweet, method: :delete, data: { confirm: 'Are you  sure?' } %>
       <% end %>
+    <span><%= paginate @tweets %></span>  
     </div>
-
     <%= link_to 'New Tweet', new_tweet_path, class: 'btn btn-buttom' %>
   </div>
 </div>
+
+
