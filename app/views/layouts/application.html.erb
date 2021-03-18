@@ -12,18 +12,24 @@
 
   <body>
     <nav class="navbar navbar-dark">
-    <% if current_user %>
-      <%= link_to 'Logout', destroy_user_session_path, method: :delete %>
-    <% end %>
-      <%= link_to 'New Tweet', new_tweet_path %>
+      <% if user_signed_in? %>
+          <%=link_to 'Sign Out', destroy_user_session_path, method: :delete %>
+          <%= link_to 'New Tweet', new_tweet_path %>
+          <%= link_to 'Feed', tweets_path%>
+      <% else %>
+          <%=link_to 'Sign In', new_user_session_path %>
+          <%=link_to 'Sign Up', new_user_registration_path %>
+          <%= link_to 'Feed', tweets_path%>
+          <%= link_to 'New Tweet', new_tweet_path %>
+      <% end %>
     </nav>
+
+                
+
+
     <div class="container">
   	<p class="notice"><%= notice %></p>
     <p class="alert"><%= alert %></p>
-
-    
-
-
     <%= yield %>
     </div>
     <!-- Bootstrap-->

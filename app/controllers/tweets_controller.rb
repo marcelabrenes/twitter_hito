@@ -4,7 +4,7 @@ class TweetsController < ApplicationController
   # GET /tweets or /tweets.json
   def index
     @tweets = Tweet.all.page(params[:page])
-    @tweet = Tweet.new
+    @tweet = Tweet.new #Crea un tweet en blanco
   end
 
   # GET /tweets/1 or /tweets/1.json
@@ -23,7 +23,7 @@ class TweetsController < ApplicationController
 
   # POST /tweets or /tweets.json
   def create
-    @tweet = Tweet.new(tweet_params)
+    @tweet = Tweet.new(tweet_params.merge(user: current_user))
 
     respond_to do |format|
       if @tweet.save
@@ -37,17 +37,17 @@ class TweetsController < ApplicationController
   end
 
   # PATCH/PUT /tweets/1 or /tweets/1.json
-  def update
-    respond_to do |format|
-      if @tweet.update(tweet_params)
-        format.html { redirect_to @tweet, notice: "Tweet was successfully updated." }
-        format.json { render :show, status: :ok, location: @tweet }
-      else
-        format.html { render :edit, status: :unprocessable_entity }
-        format.json { render json: @tweet.errors, status: :unprocessable_entity }
-      end
-    end
-  end
+  # def update
+  #   respond_to do |format|
+  #     if @tweet.update(tweet_params)
+  #       format.html { redirect_to @tweet, notice: "Tweet was successfully updated." }
+  #       format.json { render :show, status: :ok, location: @tweet }
+  #     else
+  #       format.html { render :edit, status: :unprocessable_entity }
+  #       format.json { render json: @tweet.errors, status: :unprocessable_entity }
+  #     end
+  #   end
+  # end
 
   # DELETE /tweets/1 or /tweets/1.json
   def destroy
@@ -86,6 +86,6 @@ class TweetsController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def tweet_params
-      params.require(:tweet).permit(:content, :image, :user_id, :name, :page, :retweet_id)
+      params.require(:tweet).permit(:content, :image, :user_id, :name, :page, :retweet_id, :id, :tweet_id)
     end
 end

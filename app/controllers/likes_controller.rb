@@ -6,7 +6,6 @@ class LikesController < ApplicationController
   # GET /likes or /likes.json
   def index
     @likes = Like.all
-  
   end
 
   # GET /likes/1 or /likes/1.json
@@ -16,7 +15,6 @@ class LikesController < ApplicationController
   # GET /likes/new
   def new
     @like = Like.new
-    user_id = current_user
   end
 
   # GET /likes/1/edit
@@ -25,16 +23,11 @@ class LikesController < ApplicationController
 
   # POST /likes or /likes.json
   def create
-
-    @like = Like.new(like_params)
-    if already_liked?
-      flash[:notice] = "You can't like more than once"
-    else
-      @tweet.likes.create(user_id: current_user.id)
+    @like = @tweet.likes.build(user: current_user)
 
     respond_to do |format|
       if @like.save
-        format.html { redirect_to @like, notice: "Like was successfully created." }
+        format.html { redirect_to @tweet, notice: "Like was successfully created." }
         format.json { render :show, status: :created, location: @like }
       else
         format.html { render :new, status: :unprocessable_entity }
@@ -59,7 +52,7 @@ class LikesController < ApplicationController
   # DELETE /likes/1 or /likes/1.json
   def destroy
     respond_to do |format|
-      format.html { redirect_to likes_url, notice: "Like was successfully destroyed." }
+      format.html { redirect_to @tweet, notice: "Like was successfully destroyed." }
       format.json { head :no_content }
       if !(already_liked?)
       flash[:notice] = "Cannot unlike"
@@ -90,6 +83,6 @@ end
   
   # Only allow a list of trusted parameters through.
   def like_params
-    params.require(:like).permit(:tweet_id, :user_id)
+    params.require(:like).permit(:tweet_id, :user_id, :id)
   end
 end
