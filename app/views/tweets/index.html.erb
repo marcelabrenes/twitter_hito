@@ -11,10 +11,11 @@
         <ul>
           <li class="list-group-item">
           <%= link_to "#" do%>
-            <%= image_tag current_user.picture.nil? ? 'icon.png' : current_user.picture %>
+            <img class="m-3 rounded" src="<%= tweet.user.picture %> " alt="image_user" style="weigth: 70px; height: 70px;">
             <%= tweet.user.name %>
           <% end %>
           </li>
+
 
           <li class="list-group-item"><%= link_to(image_tag(tweet.image), tweet) if tweet.image? %></li>
           <li class="list-group-item"><%= tweet.content.truncate(150)  %></li>

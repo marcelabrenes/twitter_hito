@@ -1,5 +1,5 @@
 <div class="container">
-  <%= form_with(model: @tweet) do |form| %>
+  <%= form_with(model: tweet) do |form| %>
     <% if tweet.errors.any? %>
       <div id="error_explanation">
         <h2><%= pluralize(tweet.errors.count, "error") %> prohibited this tweet from being saved:</h2>
@@ -12,9 +12,11 @@
       </div>
     <% end %>
 
-    <% if user_signed_in? %>
-            <%= render_to 'Index', tweets_path %>
+    <% if current_user %>
+      <%= render'Logout', destroy_user_session_path, method: :delete %>
+      <%= form.hidden_field :user_id, value: current_user.id %>
     <% end %>
+    
 
     <div class="form-group">
       <%= form.label :content %>
