@@ -15,5 +15,7 @@
   <%= @tweet.user_id %>
 </p>
 
-<%= link_to 'Edit', edit_tweet_path(@tweet) %> |
+<p><%= @tweet.likes.count %> <%= (@tweet.likes.count) == 1 ? 'Like' : 'Likes'%></p>
+
+<%= link_to 'Like', tweet_likes_path(tweet), method: :post %> %>
 <%= link_to 'Back', tweets_path %>

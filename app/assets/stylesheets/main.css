@@ -25,3 +25,8 @@ ul li {
     min-height: 15vw;
     object-fit: cover;
 }
+
+.btn {
+    background-color: #33ccff;
+    color: white;
+}

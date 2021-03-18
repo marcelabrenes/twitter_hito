@@ -57,8 +57,25 @@ class TweetsController < ApplicationController
   end
 
   def create_rt
-
+    create_rt = params[:tweet][:retweeted]
+    tweet_id = params[:tweet][:id] 
+    
+    if create_rt
+      original_tweet_content = Tweet.find(tweet_id).content
+      @tweet.retweeted = true
+      @tweet.original_tweet_id = tweet_id
+      @tweet.contents = original_tweet_content
+    end
+    
+    if @tweet.save
+      flash[:alert] = "Created succesfully"
+      redirect_to root_path
+    else
+      flash[:alert] = "Something happenm try again"
+      render 'new'
+    end
   end
+
 
   private
     # Use callbacks to share common setup or constraints between actions.
