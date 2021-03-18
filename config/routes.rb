@@ -9,4 +9,6 @@ Rails.application.routes.draw do
         sessions: 'users/sessions'
       }
   root to: 'tweets#index'
+  post 'friends/:id', to: 'friends#create', as: 'friends'
+  delete'friends/:id', to: 'friends#destroy', as: 'delete_friend'
 end

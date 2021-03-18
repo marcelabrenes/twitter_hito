@@ -1,5 +1,5 @@
 class LikesController < ApplicationController
-  before_action :set_like, only: %i[ show edit update destroy ]
+  before_action :set_like, only: %i[ show edit destroy ]
   before_action :find_tweet
   before_action :find_like, only: [:destroy]
 
@@ -24,29 +24,11 @@ class LikesController < ApplicationController
   # POST /likes or /likes.json
   def create
     @like = @tweet.likes.build(user: current_user)
-
-    respond_to do |format|
       if @like.save
-        format.html { redirect_to @tweet, notice: "Like was successfully created." }
-        format.json { render :show, status: :created, location: @like }
+        redirect_to @tweet, notice: "Like was successfully created."
       else
-        format.html { render :new, status: :unprocessable_entity }
-        format.json { render json: @like.errors, status: :unprocessable_entity }
+        redirect_to like.errors, notice: "Error" 
       end
-    end
-  end
-
-  # PATCH/PUT /likes/1 or /likes/1.json
-  def update
-    respond_to do |format|
-      if @like.update(like_params)
-        format.html { redirect_to @like, notice: "Like was successfully updated." }
-        format.json { render :show, status: :ok, location: @like }
-      else
-        format.html { render :edit, status: :unprocessable_entity }
-        format.json { render json: @like.errors, status: :unprocessable_entity }
-      end
-    end
   end
 
   # DELETE /likes/1 or /likes/1.json
@@ -60,7 +42,7 @@ class LikesController < ApplicationController
       @like.destroy
       end
     end
-end
+  end
 
   private
   # Use callbacks to share common setup or constraints between actions.
