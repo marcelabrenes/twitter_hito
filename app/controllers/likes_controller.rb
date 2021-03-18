@@ -25,7 +25,7 @@ class LikesController < ApplicationController
   def create
     @like = @tweet.likes.build(user: current_user)
       if @like.save
-        redirect_to @tweet, notice: "Like was successfully created."
+        redirect_to tweets_path, notice: "Like was successfully created."
       else
         redirect_to like.errors, notice: "Error" 
       end
@@ -34,7 +34,7 @@ class LikesController < ApplicationController
   # DELETE /likes/1 or /likes/1.json
   def destroy
     respond_to do |format|
-      format.html { redirect_to @tweet, notice: "Like was successfully destroyed." }
+      format.html { redirect_to tweets_path, notice: "Like was successfully destroyed." }
       format.json { head :no_content }
       if !(already_liked?)
       flash[:notice] = "Cannot unlike"

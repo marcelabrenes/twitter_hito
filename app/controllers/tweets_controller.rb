@@ -5,7 +5,11 @@ class TweetsController < ApplicationController
   def index
     @tweets = Tweet.all.page(params[:page])
     @tweet = Tweet.new #Crea un tweet en blanco
+ 
+    @friends_ids = current_user.friends.pluck(:id)
+    @friends_ids << current_user.id 
   end
+
 
   # GET /tweets/1 or /tweets/1.json
   def show
