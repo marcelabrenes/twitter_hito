@@ -1,4 +1,5 @@
 class FriendsController < ApplicationController
+
     def create
         @friend = Friend.new
         @friend_user = User.find(params[:friend_id])
@@ -25,4 +26,5 @@ class FriendsController < ApplicationController
             redirect_to user_profile_path(@friend_user)
         end
     end
+
 end

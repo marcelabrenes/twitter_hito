@@ -14,13 +14,13 @@ class TweetsController < ApplicationController
 
       @q = params[:q]
       if @q
-        @tweets = @tweets.where(:content => @q).page(params[:page])
+        @tweets = @tweets.where('content ilike ?', "%#{@q}%").page(params[:page]).per(50)
       end
   end
 
   # GET /tweets/1 or /tweets/1.json
   def show
-    
+    @users = User.all
   end
 
   # GET /tweets/new
@@ -35,10 +35,11 @@ class TweetsController < ApplicationController
   # POST /tweets or /tweets.json
   def create
     @tweet = Tweet.new(tweet_params.merge(user: current_user))
+    tweet_id = :tweet_id
 
     respond_to do |format|
       if @tweet.save
-        format.html { redirect_to @tweet, notice: "Tweet was successfully created." }
+        format.html { redirect_to root_path, notice: "Tweet was successfully created." }
         format.json { render :show, status: :created, location: @tweet }
       else
         format.html { render :new, status: :unprocessable_entity }
@@ -71,13 +72,13 @@ class TweetsController < ApplicationController
 
   def create_rt
     create_rt = params[:tweet][:retweeted]
-    tweet_id = params[:tweet][:id] 
+    tweet_id = :tweet_id 
 
     if create_rt
       original_tweet_content = Tweet.find(tweet_id).content
       @tweet.retweeted = true
       @tweet.original_tweet_id = tweet_id
-      @tweet.contents = original_tweet_content
+      @tweet.contents = original_tweet_contents
     end
 
     if @tweet.save

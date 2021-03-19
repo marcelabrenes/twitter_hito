@@ -27,7 +27,7 @@ class LikesController < ApplicationController
       if @like.save
         redirect_to tweets_path, notice: "Like was successfully created."
       else
-        redirect_to like.errors, notice: "Error" 
+        redirect_to  new_user_session_path, notice: "You need to login first" 
       end
   end
 
