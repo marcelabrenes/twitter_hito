@@ -1,7 +1,13 @@
 <p id="notice"><%= notice %></p>
 <div class="container">
+  <%= @q %>
   <div class="tweet-cont">
     <h1>Tweets</h1>
+     
+    <form>
+      <input name="q" <%= @q %>> 
+      <button type="submit">Search</button>
+    </form>
 
     <% if user_signed_in? %>
     <%= link_to 'Crear un nuevo Tweet', new_tweet_path, class:"btn btn-primary pl-6 ml-5" %>

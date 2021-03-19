@@ -3,13 +3,22 @@ class TweetsController < ApplicationController
 
   # GET /tweets or /tweets.json
   def index
-    @tweets = Tweet.all.page(params[:page])
-    @tweet = Tweet.new #Crea un tweet en blanco
- 
-    @friends_ids = current_user.friends.pluck(:id)
-    @friends_ids << current_user.id 
-  end
+    #@tweets = Tweet.all.page(params[:page])
+    #@tweet = Tweet.new #Crea un tweet en blanco
+      if current_user
+        @tweet = Tweet.new #Crea un tweet en blanco
+          @friends_ids = current_user.friends.pluck(:id)
+          @friends_ids << current_user.id 
+          @tweets = User.tweets_for_me(@friends_ids).order(created_at: :desc).page(params[:page]).per(50)
+      else
+          @tweets = Tweet.all.page(params[:page]).per(50)
+      end
 
+      @q = params[:q]
+      if @q
+        @tweets = @tweets.where(:content => @q).page(params[:page])
+      end
+  end
 
   # GET /tweets/1 or /tweets/1.json
   def show
@@ -74,10 +83,10 @@ class TweetsController < ApplicationController
     end
 
     if @tweet.save
-      flash[:alert] = "Se creo exitosamente"
+      flash[:alert] = "Saved"
       redirect_to root_path
     else
-      flash[:alert] = "Algo paso, intentalo de nuevo"
+      flash[:alert] = "Try again, writte something better"
       render 'new'
     end
   end
@@ -90,6 +99,6 @@ class TweetsController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def tweet_params
-      params.require(:tweet).permit(:content, :image, :user_id, :name, :page, :retweet_id, :id, :tweet_id)
+      params.require(:tweet).permit(:content, :image, :user_id, :name, :page, :retweet_id, :id, :tweet_id, :friends_ids)
     end
 end
