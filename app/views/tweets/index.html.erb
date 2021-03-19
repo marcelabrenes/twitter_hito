@@ -16,6 +16,7 @@
   
     <div class="card-body mb-3">
     <%= paginate @tweets %>
+
       <% @tweets.each do |tweet| %>
         <ul>
           <li class="list-group-item">
@@ -24,7 +25,6 @@
             <%= tweet.user.name %>
           <% end %>
           </li>
-
 
           <li class="list-group-item"><%= link_to(image_tag(tweet.image), tweet) if tweet.image? %></li>
           <li class="list-group-item"><%= tweet.content.truncate(150)  %></li>
@@ -42,14 +42,14 @@
             <% else %>
               <%= link_to 'Like', tweet_likes_path(tweet, like.first), method: :post %>
             <% end %>
+
             <!-- Retweet -->
             <span>Retweets:<%= tweet.retweets.count %> </span>
-          <%= form_with(model: tweet, url: tweets_path, method: :post) do |form| %>
-          <%=form.hidden_field :retweeted, value: true %>
-          <%= form.hidden_field :id %>
-          <%= form.submit 'Retweet', class:"btn btn-primary pl-6 ml-5"%>
-          <% end %>
-
+            <%= form_with(model: tweet, url: tweets_path, method: :post) do |form| %>
+              <%= form.hidden_field :retweeted, value: true %>
+              <%= form.hidden_field :id %>
+              <%= form.submit 'Retweet', class:"btn btn-primary pl-6 ml-5"%>
+            <% end %>
           </li>
         </ul>
         <!-- <% link_to 'Show', tweet, class: "btn btn-primary" %>

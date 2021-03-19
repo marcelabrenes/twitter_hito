@@ -21,7 +21,7 @@ class FriendsController < ApplicationController
             flash[:alert] = 'Friend was deleted'
             redirect_to user_profile_path(@friend_user)
         else
-            flash[:alert] = 'Something happened, try again'
+            flash[:alert] = 'This friendship was not for you'
             redirect_to user_profile_path(@friend_user)
         end
     end
