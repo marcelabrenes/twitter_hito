@@ -6,24 +6,28 @@ class Tweet < ApplicationRecord
   validates :content, presence: true
   
   #  def hashtag(tweet)
-  #    hastags = content.split(' ')
-  #    palabras.each
-  #    content
+  #   hastags = content.split(' ')
+  #   palabras.each
+  #   content
   #  end
 
   # def hashtag_search()
-  #   content.split(' ').each do |word|
-  #     puts word
+  #  content.split(' ').each do |word|
+  #      puts word
   #   end
   #   content[0]
   # end
-  def create_hash_tags
-    extract_content_hash_tags.each do |content|
-    hash_tags.create(content: content)
+
+  def hashtag
+    words = content.split(' ')
+    new_content = words.map do |word|
+      if word.include?(word)
+        hash = word.split('#').last
+        "<a href='/tweets?q=#{hash}'>#{word}</a>"
+      else
+        word
+      end
     end
-  end
-    
-  def extract_content_hash_tags
-  description.to_s.scan(/#\w+/).map{|content| content.gsub("#", "")}
+    new_content.join(' ').html_safe
   end
 end

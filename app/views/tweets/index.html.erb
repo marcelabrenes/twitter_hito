@@ -27,7 +27,7 @@
           </li>
 
           <li class="list-group-item"><%= link_to(image_tag(tweet.image), tweet) if tweet.image? %></li>
-          <li class="list-group-item"><%= tweet.content.truncate(150)  %></li>
+          <li class="list-group-item"><%= tweet.hashtag %></li>
           <li class="list-group-item text-muted">
             <small><%= link_to time_ago_in_words(tweet.created_at), tweet %> ago</small>
             <% link_to 'rt', create_rt_tweet_path(tweet), method: :post %>
