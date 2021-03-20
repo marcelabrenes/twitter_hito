@@ -10,7 +10,6 @@
 
     
     <% if user_signed_in? %>
-    <%= link_to 'Create a new Tweet', new_tweet_path, class:"btn btn-primary pl-6 ml-5" %>
     <%= render 'form', tweet: @tweet %>
     <% end %>
   
@@ -27,7 +26,7 @@
           </li>
 
           <li class="list-group-item"><%= link_to(image_tag(tweet.image), tweet) if tweet.image? %></li>
-          <li class="list-group-item"><%= tweet.hashtag %></li>
+          <li class="list-group-item"><%= hashtag_trans tweet.content %></li>
           <li class="list-group-item text-muted">
             <small><%= link_to time_ago_in_words(tweet.created_at), tweet %> ago</small>
             <% link_to 'rt', create_rt_tweet_path(tweet), method: :post %>
@@ -46,11 +45,13 @@
 
             <!-- Retweet -->
             <span>Retweets:<%= tweet.retweets.count %> </span>
-            <%= form_with(model: tweet, url: tweets_path, method: :post) do |form| %>
-              <%= form.hidden_field :retweeted, value: true %>
-              <%= form.hidden_field :id %>
-              <%= form.submit 'Retweet', class:"btn btn-primary pl-6 ml-5"%>
+            <%= form_with(model: tweet, url: create_rt_tweet_path(tweet), method: :post) do |form| %>
+            <%=form.hidden_field :retweeted, value: true %>
+            <%= form.hidden_field :id %>
+            <%= form.hidden_field :content, value: tweet.content %>
+            <%= form.submit 'Retweet', class:"btn btn-primary pl-6 ml-5"%>
             <% end %>
+
           </li>
         </ul>
         <!-- <% link_to 'Show', tweet, class: "btn btn-primary" %>
