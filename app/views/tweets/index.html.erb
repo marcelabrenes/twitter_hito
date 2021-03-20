@@ -2,18 +2,18 @@
 <div class="container tweet-cont">
   <%= @q %>
 
-  <p>What's happening?</p>
-  <%= link_to 'New Tweet', new_tweet_path, class: 'btn btn-buttom rounded-pill' %>
+  <h1>What's happening?</h1>
   
-  <form class="my-5">
-      <div class="form-group">
-        <input class="form-control form-control-sm" placeholder="Search Twitter" name="q" <%= @q %>>
-      </div>
-    </form>
 
     <% if user_signed_in? %>
     <%= render 'form', tweet: @tweet %>
     <% end %>
+
+    <form class="my-5">
+      <div class="form-group">
+        <input class="form-control form-control-sm" placeholder="Search Twitter" name="q" <%= @q %>>
+      </div>
+    </form>
 
   <%= paginate @tweets %>
      
@@ -21,7 +21,7 @@
       <ul>
         <li class="list-group-item">
         <%= link_to "#" do%>
-          <img class="m-3 rounded" src="<%= tweet.user.picture %> " alt="image_user" style="weigth: 70px; height: 70px;">
+          <img class="m-3 rounded" src="<%= tweet.user.picture %>">
           <%= tweet.user.name %>
         <% end %>
         </li>
@@ -60,5 +60,5 @@
     <span><%= paginate @tweets %></span>
   
     
-  <%= link_to 'New Tweet', new_tweet_path, class: 'btn btn-buttom rounded-pill' %>
+  <%= link_to 'Tweet', new_tweet_path, class: 'btn btn-buttom rounded-pill' %>
 </div>

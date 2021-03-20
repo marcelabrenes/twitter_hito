@@ -2,6 +2,7 @@
 <html>
   <head>
     <title>Twitter</title>
+    <link rel="shortcut icon" href="<%= asset_path 'twitter.png' %>" type="image/x-icon">
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
@@ -25,6 +26,7 @@
     <div class="container bg-white"> 
         <div class="row"> 
           <div class="col-2" id="green"> 
+              <img src="<%= asset_path 'twitter.png', class:'mt-5'%>">
               <h4 class="home_title mt-3">Home</h4> 
 
               <!-- Navigation links in sidebar-->
