@@ -1,66 +1,64 @@
 <p id="notice"><%= notice %></p>
-<div class="container">
+<div class="container tweet-cont">
   <%= @q %>
-  <div class="tweet-cont">
-     
-    <form>
-      <input name="q" <%= @q %>>
-      <button type="submit">Search</button>
+
+  <p>What's happening?</p>
+  <%= link_to 'New Tweet', new_tweet_path, class: 'btn btn-buttom rounded-pill' %>
+  
+  <form class="my-5">
+      <div class="form-group">
+        <input class="form-control form-control-sm" placeholder="Search Twitter" name="q" <%= @q %>>
+      </div>
     </form>
 
-    
     <% if user_signed_in? %>
     <%= render 'form', tweet: @tweet %>
     <% end %>
+
+  <%= paginate @tweets %>
+     
+    <% @tweets.each do |tweet| %>
+      <ul>
+        <li class="list-group-item">
+        <%= link_to "#" do%>
+          <img class="m-3 rounded" src="<%= tweet.user.picture %> " alt="image_user" style="weigth: 70px; height: 70px;">
+          <%= tweet.user.name %>
+        <% end %>
+        </li>
+        <li class="list-group-item"><%= link_to(image_tag(tweet.image), tweet) if tweet.image? %></li>
+                  
+        <li class="list-group-item"><%= hashtag_trans tweet.content  %></li>
+        <li class="list-group-item text-muted">
+          <small><%= link_to time_ago_in_words(tweet.created_at), tweet %> ago</small>
+          <% link_to 'rt', create_rt_tweet_path(tweet), method: :post %>
+          <% tweet.retweet&.id %>
+          <% tweet.retweets.count %>
+          <!--LIKES -->
+          <%= tweet.likes.count %> <%= (tweet.likes.count) == 1 ? 'Like' : 'Likes'%>
+          <% like = tweet.likes.where user: current_user %> 
+          <% if like.present? %>
+            <%= link_to 'unlike', tweet_like_path(tweet, like.first), method: :delete %>
+          <% else %>
+            <%= link_to 'Like', tweet_likes_path(tweet, like.first), method: :post %>
+          <% end %> 
+          <% link_to 'Eliminar', tweets_path(tweet), method: :delete, data: { confirm: 'Are you  sure?' } %>
+          <!-- Retweet -->
+          <span>Retweets:<%= tweet.retweets.count %> </span>
+          <%= form_with(model: tweet, url: create_rt_tweet_path(tweet), method: :post) do |form| %>
+          <%=form.hidden_field :retweeted, value: true %>
+          <%= form.hidden_field :id %>
+          <%= form.hidden_field :content, value: tweet.content %>
+          <%= form.submit 'Retweet', class:"btn btn-primary pl-6 ml-5"%>
+        <% end %>
+        </li>
+      </ul>
+      
+      <!-- <% link_to 'Show', tweet, class: "btn btn-primary" %>
+      <% link_to 'Edit', edit_tweet_path(tweet) %> -->
+    <% end %>
+
+    <span><%= paginate @tweets %></span>
   
-    <%= paginate @tweets %>
-
-    <div class="card-body my5-5">
-      <% @tweets.each do |tweet| %>
-        <ul>
-          <li class="list-group-item">
-          <%= link_to "#" do%>
-            <img class="m-3 rounded" src="<%= tweet.user.picture %> " alt="image_user" style="weigth: 70px; height: 70px;">
-            <%= tweet.user.name %>
-          <% end %>
-          </li>
-
-          <li class="list-group-item"><%= link_to(image_tag(tweet.image), tweet) if tweet.image? %></li>
-          <li class="list-group-item"><%= hashtag_trans tweet.content %></li>
-          <li class="list-group-item text-muted">
-            <small><%= link_to time_ago_in_words(tweet.created_at), tweet %> ago</small>
-            <% link_to 'rt', create_rt_tweet_path(tweet), method: :post %>
-            <% tweet.retweet&.id %>
-            <% tweet.retweets.count %>
-
-            <!-- Like -->
-            <%= tweet.likes.count %> <%= (tweet.likes.count) == 1 ? 'Like' : 'Likes'%>
-            <% like = tweet.likes.where user: current_user %> 
-            <% if like.present? %>
-              <%= link_to 'Unlike', tweet_like_path(tweet, like.first), method: :delete %>
-            <% else %>
-              <%= link_to 'Like', tweet_likes_path(tweet, like.first), method: :post %>
-            <% end %>
-            <% link_to 'Delete', tweet, method: :delete, data: { confirm: 'Are you  sure?' } %>
-
-            <!-- Retweet -->
-            <span>Retweets:<%= tweet.retweets.count %> </span>
-            <%= form_with(model: tweet, url: create_rt_tweet_path(tweet), method: :post) do |form| %>
-            <%=form.hidden_field :retweeted, value: true %>
-            <%= form.hidden_field :id %>
-            <%= form.hidden_field :content, value: tweet.content %>
-            <%= form.submit 'Retweet', class:"btn btn-primary pl-6 ml-5"%>
-            <% end %>
-
-          </li>
-        </ul>
-        <!-- <% link_to 'Show', tweet, class: "btn btn-primary" %>
-        <% link_to 'Edit', edit_tweet_path(tweet) %> -->
-      <% end %>
-  
-      <span><%= paginate @tweets %></span>
-    </div>
     
-    <%= link_to 'New Tweet', new_tweet_path, class: 'btn btn-buttom' %>
-  </div>
+  <%= link_to 'New Tweet', new_tweet_path, class: 'btn btn-buttom rounded-pill' %>
 </div>

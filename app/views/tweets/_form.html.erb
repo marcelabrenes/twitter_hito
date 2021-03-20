@@ -13,17 +13,10 @@
     <% end %>
 
     
-    
-
-    <div class="form-group">
-      <%= form.label :content %>
-      <%= form.text_area :content %>
-    </div>
-
-    <div class="form-group">
-      <%= form.label :image %>
-      <%= form.text_field :image %>
-    </div>
+      <div class="form-group my-5">
+      <%= form.text_area :content, class:'form-control form-control-lg', placeholder: 'What are you thinking?'%><br>
+      <%= form.text_field :image, class:'form-control form-control-sm"', placeholder: 'Show us something cool'%><br>
+      </div>
 
     <div class="actions">
       <%= form.submit %>
